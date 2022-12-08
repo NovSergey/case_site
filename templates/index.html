@@ -1,0 +1,64 @@
+{% extends "base2.html" %}
+
+
+{% block container %}
+
+<div class="goods">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<form action="" method="post" name="find">
+  <div class="find">
+    <p>
+      {{ form.title(class="form-control input btn-primary btn") }}{{form.category(type="category", class="btn btn-primary category")}}{{ form.submit(type="submit", class="btn btn-primary btn_find") }}
+    </p>
+  </div>
+</form>
+</div>
+<div class="cases">
+  <ul class="case">
+
+    <li class="case">
+      <a class="case" href="/case">
+        <div class="col-md-auto case btn">
+          <img src="{{ url_for('static', filename='images/case20.jpg') }}">
+          <span class="case_name">Засекреченное</span>
+          <span class="case_price">1231р</span>
+        </div>
+      </a>
+    </li>
+
+  </ul>
+</div>
+<div class="items">
+  {% for item in news%}
+  <div class="col-md-auto border rounded item">
+    <img src="{{ url_for('static', filename=item.picture) }}" class="image">
+    <h2>{{item.title}}</h2>
+    <div>
+      Автор - {{item.user.name}}
+    </div>
+    <div>
+      Цена - {{item.price}}
+    </div>
+    <div>
+      Категория - {{item.category}}
+    </div>
+    <div>
+      Дата добавления - {{item.created_date}}
+    </div>
+    <div>
+      <a href="/news_info/{{ item.id }}" class="btn btn-success">
+        Подробнее
+      </a>
+      {% if current_user.is_authenticated and current_user == item.user %}
+      <a href="/news/{{ item.id }}" class="btn btn-warning">
+        Изменить
+      </a>
+      <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+        Удалить
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
